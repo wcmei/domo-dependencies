@@ -1,0 +1,52 @@
+# base:
+#   config:
+#     oauth:
+#       hostname: 192.168.0.144
+#       port: 8103
+
+spring:
+  application:
+    name: demo-service-user-consumer
+  main:
+    allow-bean-definition-overriding: true
+#   servlet:
+#     multipart:
+#       max-file-size: 50MB
+#       max-request-size: 90MB
+  # default disable all
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        register-enabled: true
+        server-addr: 127.0.0.1:8848
+
+dubbo:
+  registry:
+    address: spring-cloud://localhost
+  cloud:
+    subscribed-services: ${provider.application.name}
+  protocol:
+    serialization: kryo
+    name: dubbo
+    port: 20882
+
+server:
+  port: 8102
+
+
+provider:
+  application:
+    name: demo-service-user-provider
+
+
+# security:
+#   oauth2:
+#     client:
+#       client-id: client
+#       client-secret: secret
+#       access-token-uri: http://${base.config.oauth.hostname}:${base.config.oauth.port}/oauth/token
+#       user-authorization-uri: http://${base.config.oauth.hostname}:${base.config.oauth.port}/oauth/authorize
+#     resource:
+#       token-info-uri: http://${base.config.oauth.hostname}:${base.config.oauth.port}/oauth/check_token
+

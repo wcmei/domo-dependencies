@@ -1,0 +1,80 @@
+spring:
+  application:
+    name: demo-service-user-provider
+
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    druid:
+      # url: jdbc:mysql://192.168.0.113:3307/mars_basedb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://121.199.68.69:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: 123456
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      #指明是否在从池中取出连接前进行检验，如果检验失败，则从池中去除连接并尝试取出另一个
+      test-on-borrow: true
+  
+  jpa:
+    show-sql: true
+    #将默认的存储引擎设置为InnoDB，否则底层Hibernate建表引擎默认是MyISAM（而MySql默认存储引擎是InnoDB）
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    #hibernate.enable_lazy_load_no_trans：是否允许在没有transaction的情况下支持懒加载
+    properties: {hibernate.enable_lazy_load_no_trans: true,hibernate.format_sql: true}
+    hibernate:
+      #create----每次运行该程序，没有表格会新建表格，表内有数据会清空
+      #drop----每次程序结束的时候会清空表
+      #update----每次运行程序，没有表格会新建表格，表内有数据不会清空，只会更新
+      #validate----运行程序会校验数据与数据库的字段类型是否相同，不同会报错
+      ddl-auto: update
+
+  #default disable all
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        register-enabled: true
+        server-addr: 127.0.0.1:8848
+
+server:
+  port: 8101
+
+# MyBatis Config properties
+mybatis:
+  configuration:
+    cache-enabled: true
+    call-setters-on-nulls: true
+  type-aliases-package: com.wcmei.demo.service.user.domain
+  mapper-locations: classpath:mapper/*.xml
+
+dubbo:
+  scan:
+    base-packages: com.wcmei.demo.service.user
+  protocols:
+    dubbo:
+      name: dubbo
+      port: 20881
+  registry:
+    address: spring-cloud://localhost
+
+  cloud:
+    subscribed-services: ${provider.application.name}
+
+provider:
+  application:
+    name: null
+
+logging:
+  level:
+    com:
+      alibaba:
+        nacos:
+          client:
+            naming: error
+      wcmei:
+        demo:
+          service:
+            user:
+              mapper: debug

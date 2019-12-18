@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: demo-service-redis
+  main:
+    allow-bean-definition-overriding: true
+  redis:
+  #  lettuce:
+  #    pool:
+  #      max-active: 8
+  #      max-idle: 8
+  #      max-wait: -1ms
+  #      min-idle: 0
+#
+#    sentinel:
+#      master: mymaster
+#      nodes: 192.168.0.153:26379, 192.168.0.153:26380, 192.168.0.153:26381
+    host: 127.0.0.1
+
+  # #    host: 192.168.2.150
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+
+
+  # default disable all
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        register-enabled: true
+        server-addr: 127.0.0.1:8848
+
+
+
+dubbo:
+  scan:
+    base-packages: com.wcmei.demo.service.redis
+  protocols:
+    dubbo:
+      name: dubbo
+      port: 30881
+  registry:
+    address: spring-cloud://localhost
+
+  cloud:
+    subscribed-services: ${provider.application.name}
+
+provider:
+  application:
+    name: null
+
+
+server:
+  port: 9901
+
+

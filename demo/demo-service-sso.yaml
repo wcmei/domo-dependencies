@@ -1,0 +1,83 @@
+spring:
+  application:
+    name: demo-service-sso
+
+  datasource:
+    druid:
+      # url: jdbc:mysql://192.168.0.113:3307/mars_basedb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://121.199.68.69:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: 123456
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      #指明是否在从池中取出连接前进行检验，如果检验失败，则从池中去除连接并尝试取出另一个
+      test-on-borrow: true
+
+  main:
+    allow-bean-definition-overriding: true
+
+  redis:
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        max-wait: -1ms
+#        min-idle: 0
+#
+#    sentinel:
+#      master: mymaster
+#      nodes: 192.168.0.153:26379, 192.168.0.153:26380, 192.168.0.153:26381
+    host: 127.0.0.1
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+    database: 1
+
+  cloud:
+#     sentinel:
+#       transport:
+#         dashboard: 127.0.0.1:8181
+#         port: 8720
+    nacos:
+      discovery:
+        enabled: true
+        register-enabled: true
+        server-addr: 127.0.0.1:8848
+
+# MyBatis Config properties
+mybatis:
+  configuration:
+    cache-enabled: true
+    call-setters-on-nulls: true
+  type-aliases-package: com.wcmei.demo.service.user.domain
+  mapper-locations: classpath:mapper/*.xml
+
+# feign:
+#   sentinel:
+#     enabled: true
+
+# dubbo:
+#   registry:
+#     address: spring-cloud://localhost
+#   cloud:
+#     subscribed-services: ${provider.application.name}
+#   protocol:
+#     port: 21883
+
+
+server:
+  port: 8103
+
+# provider:
+#   application:
+#     name: null
+
+sso:
+  oauth2:
+    grant_type: password
+    client_id: client
+    client_secret: secret
