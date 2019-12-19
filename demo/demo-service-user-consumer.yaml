@@ -1,8 +1,8 @@
-# base:
-#   config:
-#     oauth:
-#       hostname: 192.168.0.144
-#       port: 8103
+base:
+  config:
+    oauth:
+      hostname: 127.0.0.1
+      port: 8103
 
 spring:
   application:
@@ -40,13 +40,13 @@ provider:
     name: demo-service-user-provider
 
 
-# security:
-#   oauth2:
-#     client:
-#       client-id: client
-#       client-secret: secret
-#       access-token-uri: http://${base.config.oauth.hostname}:${base.config.oauth.port}/oauth/token
-#       user-authorization-uri: http://${base.config.oauth.hostname}:${base.config.oauth.port}/oauth/authorize
-#     resource:
-#       token-info-uri: http://${base.config.oauth.hostname}:${base.config.oauth.port}/oauth/check_token
+security:
+  oauth2:
+    client:
+      client-id: client
+      client-secret: secret
+      access-token-uri: http://${base.config.oauth.hostname}:${base.config.oauth.port}/oauth/token
+      user-authorization-uri: http://${base.config.oauth.hostname}:${base.config.oauth.port}/oauth/authorize
+    resource:
+      token-info-uri: http://${base.config.oauth.hostname}:${base.config.oauth.port}/oauth/check_token
 
